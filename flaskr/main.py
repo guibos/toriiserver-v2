@@ -3,7 +3,7 @@ import os
 from flask import Flask
 
 from flaskr.infrastructure.database import db
-from flaskr import auth
+from flaskr.application import auth
 from flaskr import blog
 
 

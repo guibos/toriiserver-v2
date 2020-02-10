@@ -32,7 +32,7 @@ def create_app(test_config=None):
     from flaskr.infrastructure.database import db
     db.init_app(app)
 
-    from . import auth
+    from flaskr.application import auth
     app.register_blueprint(auth.bp)
 
     from . import blog
