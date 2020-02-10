@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+yapf = "*"
+
+[packages]
+flask = "*"
+flask-graphql = "*"
+flask-sqlalchemy = "*"
+
+[scripts]
+ci = "bash -c \"yapf -ir . && pylint --max-line-length 120 setup.py \""
+formatter = "yapf -ir ."
+lint = "pylint --max-line-length 120 src tests"
+run = "bash -c \"export FLASK_APP=flaskr; export FLASK_ENV=development; flask run \""
+
+[requires]
+python_version = "3.6"
