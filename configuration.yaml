@@ -1,0 +1,3 @@
+tornado:
+  test:
+    cache_directory: /home/guibos/tmp

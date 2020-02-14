@@ -11,11 +11,12 @@ pytest-xdist = "*"
 yapf = "*"
 
 [packages]
-sqlalchemy = "*"
-graphene = "*"
-graphene-sqlalchemy = "*"
+alembic = "*"
 flask = "*"
 flask-graphql = "*"
+graphene = "*"
+graphene-sqlalchemy = "*"
+sqlalchemy = "*"
 
 [scripts]
 ci = "bash -c \"yapf -ir . && pylint --max-line-length 120 setup.py \""

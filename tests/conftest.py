@@ -6,8 +6,6 @@ from flaskr import create_app
 from flaskr.db import get_db, init_db
 
 
-
-
 @pytest.fixture
 def app():
     db_fd, db_path = tempfile.mkstemp()
