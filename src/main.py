@@ -4,7 +4,7 @@ from flask import Flask
 
 from src.application.graphql import graphql
 from src.application.streamer import streamer
-from src.database.base import db_session
+from src.infrastructure.database.base import db_session
 
 
 def create_app(config=None):
@@ -35,3 +35,6 @@ def create_app(config=None):
         db_session.remove()
 
     return app
+
+
+app = create_app()

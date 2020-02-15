@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 import os
 
+
 # Create database engine
 db_name = 'database.sqlite3'
 db_path = os.path.join(os.path.dirname(__file__), db_name)

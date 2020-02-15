@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
-from src.database.base import Base
-from src.database.models.title_model import TitleModel
+from src.infrastructure.database.base import Base
+from src.infrastructure.database.models.title_model import TitleModel
 
 
 class UserModel(Base):

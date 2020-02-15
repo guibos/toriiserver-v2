@@ -1,7 +1,7 @@
 
 from sqlalchemy import Integer, String, Column, ForeignKey
 
-from src.database.base import Base
+from src.infrastructure.database.base import Base
 
 
 class TitleModel(Base):

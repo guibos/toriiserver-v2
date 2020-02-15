@@ -2,8 +2,8 @@ from datetime import datetime
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
 from src.application.graphql import utils
-from src.database.base import db_session
-from src.database.models.user_model import UserModel
+from src.infrastructure.database.base import db_session
+from src.infrastructure.database.models.user_model import UserModel
 import graphene
 
 

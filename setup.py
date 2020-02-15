@@ -1,8 +1,8 @@
 import logging
 
-from src.database import base
-from src.database.models.title_model import TitleModel
-from src.database.models.user_model import UserModel
+from src.infrastructure.database import base
+from src.infrastructure.database.models.title_model import TitleModel
+from src.infrastructure.database.models import UserModel
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
