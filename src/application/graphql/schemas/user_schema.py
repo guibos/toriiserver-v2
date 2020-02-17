@@ -9,7 +9,7 @@ import graphene
 
 # Create a generic class to mutualize description of people attributes for both queries and mutations
 class UserAttribute:
-    name = graphene.String(description="Name of the user.")
+    username = graphene.String(description="Name of the user.")
 
 
 class User(SQLAlchemyObjectType):
@@ -30,13 +30,15 @@ class CreateUser(graphene.Mutation):
     user = graphene.Field(lambda: User, description="User created by this mutation.")
 
     class Arguments:
-        input = CreateUserInput(required=True)
+        user_data = CreateUserInput(required=True)
 
-    def mutate(self, info, input):
-        data = utils.input_to_dictionary(input)
+    @staticmethod
+    def mutate(info, user_data, *a, **args):
+        data = utils.input_to_dictionary(user_data)
         # data['created'] = datetime.utcnow()
         # data['edited'] = datetime.utcnow()
-
+        a = info.context.files['photo'].stream.read()
+        print(a)
         user = UserModel(**data)
         db_session.add(user)
         db_session.commit()

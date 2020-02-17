@@ -7,6 +7,11 @@ from src.application.streamer import streamer
 from src.infrastructure.database.base import db_session
 
 
+class App:
+    def __init__(self, database_facade):
+        self._database_facade = database_facade
+
+
 def create_app(config=None):
     app = Flask(__name__, instance_relative_config=True)
 
@@ -32,7 +37,8 @@ def create_app(config=None):
 
     @app.teardown_appcontext
     def shutdown_session(exception=None):
-        db_session.remove()
+        db_sessi
+        on.remove()
 
     return app
 
