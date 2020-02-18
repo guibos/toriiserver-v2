@@ -2,19 +2,23 @@ from flask import Blueprint, request
 from flask_graphql import GraphQLView
 
 from src.application.graphql.schemas.schema import schema
-from src.infrastructure.database.base import db_session
-from src.infrastructure.database.facade import DatabaseFacade
 
 
 class GraphQLHandler:
-    def __init__(self, database_facade: DatabaseFacade):
-        self._database_facade
-        bp = Blueprint('graphql', __name__, url_prefix='/graphql')
-        bp.add_url_rule(
+    _HANDLER_NAME = 'graphql'
+    _HANDLER_URL_PREFIX = '/graphql'
+
+    def __init__(self, *, scopped_session):
+        self._blueprint = Blueprint('graphql', __name__, url_prefix=self._HANDLER_URL_PREFIX)
+        self._blueprint.add_url_rule(
             '/',
             view_func=GraphQLView.as_view(
-                'graphql',
+                self._HANDLER_NAME,
                 schema=schema,
                 graphiql=True,
-                get_context=lambda: {'session': db_session, 'request': request}
-         ))
+                get_context=lambda: {'session': scopped_session, 'request': request}
+        ))
+
+    @property
+    def blueprint(self) -> Blueprint:
+        return self._blueprint

@@ -2,7 +2,7 @@
 from contextlib import contextmanager
 
 import sqlalchemy as sa
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm.session import Session
 
 from src.facade.database.value_object import DatabaseURLValueObject
