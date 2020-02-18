@@ -5,6 +5,7 @@ from src.application.graphql import utils
 from src.infrastructure.database.base import db_session
 from src.infrastructure.database.models.title_model import TitleModel
 import graphene
+from flask import request
 
 
 # Create a generic class to mutualize description of people attributes for both queries and mutations

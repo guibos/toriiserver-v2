@@ -32,13 +32,11 @@ class CreateUser(graphene.Mutation):
     class Arguments:
         user_data = CreateUserInput(required=True)
 
-    @staticmethod
-    def mutate(info, user_data, *a, **args):
+    def mutate(self, info, user_data):
         data = utils.input_to_dictionary(user_data)
         # data['created'] = datetime.utcnow()
         # data['edited'] = datetime.utcnow()
-        a = info.context.files['photo'].stream.read()
-        print(a)
+        #a = info.context.files['photo'].stream.read()
         user = UserModel(**data)
         db_session.add(user)
         db_session.commit()

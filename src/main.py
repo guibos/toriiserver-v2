@@ -2,7 +2,7 @@ import os
 
 from flask import Flask
 
-from src.application.graphql import graphql
+from src.application.graphql import handler
 from src.application.streamer import streamer
 from src.infrastructure.database.base import db_session
 
@@ -32,13 +32,12 @@ def create_app(config=None):
         # load the test config if passed in
         app.config.from_mapping(config)
 
-    app.register_blueprint(graphql.bp)
+    app.register_blueprint(handler.bp)
     app.register_blueprint(streamer.bp)
 
     @app.teardown_appcontext
     def shutdown_session(exception=None):
-        db_sessi
-        on.remove()
+        db_session.remove()
 
     return app
 

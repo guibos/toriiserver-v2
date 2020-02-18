@@ -37,3 +37,6 @@ class DatabaseFacade:
             pass
         finally:
             connect.close()
+    
+    def get_scoped_session(self):
+        return scoped_session(sessionmaker(bind=self._engine, expire_on_commit=False))
