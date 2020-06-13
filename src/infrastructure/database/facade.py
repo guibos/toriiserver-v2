@@ -5,7 +5,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.orm.session import Session
 
-from src.facade.database.value_object import DatabaseURLValueObject
+from src.infrastructure.database.value_objects.database_url_value_object import DatabaseURLValueObject
 
 
 class DatabaseFacade:

@@ -1,12 +1,17 @@
 import os
-import tempfile
+import shutil
 
 import pytest
 from alembic.command import upgrade
 from alembic.config import Config
 
-from src.main import create_app
+from src.infrastructure.database.facade import DatabaseFacade
+from src.infrastructure.database.value_objects.database_url_value_object import DatabaseURLValueObject
+from src.main import App
 
+APP_CONFIG = {
+    'TESTING': True,
+}
 
 SQLITE_DB_FILENAME_MASTER = "master_sqlite.db"
 SQLITE_DB_FILENAME_COPY = "sqlite.db"
@@ -14,7 +19,7 @@ SQLITE_DB_DIRECTORY_MASTER = "master_sqlite"
 
 
 @pytest.fixture(scope="session")
-def prepare_master_sqlite_db(tmpdir_factory):
+def sqlite_prepare_master_db(tmpdir_factory):
     directory = tmpdir_factory.mktemp(SQLITE_DB_DIRECTORY_MASTER)
     path = directory.join(SQLITE_DB_FILENAME_MASTER)
     migrations_dir = os.getcwd()
@@ -27,12 +32,18 @@ def prepare_master_sqlite_db(tmpdir_factory):
 
 
 @pytest.fixture
-def app():
-    master_db = prepare_master_sqlite_db()
+def sqlite(tmpdir, sqlite_prepare_master_db):
+    path = tmpdir.join(SQLITE_DB_FILENAME_COPY)
+    shutil.copy(sqlite_prepare_master_db, tmpdir.join(SQLITE_DB_FILENAME_COPY))
+    database_url = DatabaseURLValueObject(drivername='sqlite', database=path)
+    database_facade = DatabaseFacade(database_url_config=database_url)
 
-    app = create_app({
-        'TESTING': True,
-    })
+    return database_facade
+
+
+@pytest.fixture
+def app(sqlite):
+    app = App(database_facade=sqlite, config=APP_CONFIG)
 
     return app
 

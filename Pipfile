@@ -16,6 +16,7 @@ flask = "*"
 flask-graphql = "*"
 graphene = "*"
 graphene-sqlalchemy = "*"
+pyyaml = "*"
 sqlalchemy = "*"
 
 [scripts]

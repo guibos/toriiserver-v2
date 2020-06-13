@@ -3,7 +3,9 @@ import os
 from flask import Flask
 
 from src.application.graphql.handler import GraphQLHandler
+from src.infrastructure.configuration.configuration_repository import Configuration
 from src.infrastructure.database.facade import DatabaseFacade
+from src.infrastructure.database.value_objects.database_url_value_object import DatabaseURLValueObject
 
 
 class App:
@@ -28,18 +30,20 @@ class App:
 
         scoped_session = database_facade.get_scoped_session()
 
-        self._app.register_blueprint(GraphQLHandler(scopped_session=scoped_session).blueprint)
+        self._app.register_blueprint(GraphQLHandler(scoped_session=scoped_session).blueprint)
 
         @self._app.teardown_appcontext
         def shutdown_session(exception=None):
             scoped_session.remove()
 
     def run(self, *args, **kwargs):
-        self.run(*args, **kwargs)
+        self._app.run(*args, **kwargs)
 
 
-def create_app():
-    database_facade =
-    App(database_facade=da)
+def create_app(*, arguments):
+    configuration = Configuration(environment=arguments.environment)
+    database_facade = DatabaseFacade(
+        database_url_config=DatabaseURLValueObject(**configuration.get_section(section='database')))
+    app = App(database_facade=database_facade)
 
     return app

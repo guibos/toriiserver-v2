@@ -2,7 +2,6 @@ from datetime import datetime
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
 from src.application.graphql import utils
-from src.infrastructure.database.base import db_session
 from src.infrastructure.database.models.title_model import TitleModel
 import graphene
 from flask import request
@@ -35,9 +34,7 @@ class CreateTitle(graphene.Mutation):
         input = CreateTitleInput(required=True)
 
     def mutate(self, info, input):
-        data = utils.input_to_dictionary(input)
-        # data['created'] = datetime.utcnow()
-        # data['edited'] = datetime.utcnow()
+
 
         title = TitleModel(**data)
         db_session.add(title)

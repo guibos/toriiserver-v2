@@ -1,8 +1,8 @@
 general:
-  environment: test
+  environment: development
 
-tornado:
-  test:
+web:
+  development:
     debug: false
     cookie_secret: "El Psy Congroo"
     xsrf_cookies: false
@@ -11,6 +11,6 @@ tornado:
     cache_directory: /tmp
 
 database:
-  test:
+  development:
     drivername: sqlite
     database: database.db

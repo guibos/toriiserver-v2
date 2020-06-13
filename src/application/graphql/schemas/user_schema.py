@@ -2,14 +2,14 @@ from datetime import datetime
 from graphene_sqlalchemy import SQLAlchemyObjectType
 
 from src.application.graphql import utils
-from src.infrastructure.database.base import db_session
+from src.application.graphql.schemas.schema_features import SchemaFeatures
 from src.infrastructure.database.models.user_model import UserModel
 import graphene
 
 
 # Create a generic class to mutualize description of people attributes for both queries and mutations
 class UserAttribute:
-    username = graphene.String(description="Name of the user.")
+    username = graphene.String(description="Name of the user.",)
 
 
 class User(SQLAlchemyObjectType):
@@ -25,21 +25,20 @@ class CreateUserInput(graphene.InputObjectType, UserAttribute):
     pass
 
 
-class CreateUser(graphene.Mutation):
+class CreateUser(graphene.Mutation, SchemaFeatures):
     """Mutation to create a user."""
     user = graphene.Field(lambda: User, description="User created by this mutation.")
 
     class Arguments:
         user_data = CreateUserInput(required=True)
 
-    def mutate(self, info, user_data):
+    @staticmethod
+    def mutate(info, user_data):
+        session = self._get_session(info=info)
         data = utils.input_to_dictionary(user_data)
-        # data['created'] = datetime.utcnow()
-        # data['edited'] = datetime.utcnow()
-        #a = info.context.files['photo'].stream.read()
         user = UserModel(**data)
-        db_session.add(user)
-        db_session.commit()
+        session.add(user)
+        session.commit()
 
         return CreateUser(user=user)
 
@@ -57,12 +56,12 @@ class UpdateUser(graphene.Mutation):
         input = UpdateUserInput(required=True)
 
     def mutate(self, info, input):
+        session = self._get_session(info=info)
         data = utils.input_to_dictionary(input)
-        data['edited'] = datetime.utcnow()
 
-        user = db_session.query(UserModel).filter_by(id=data['id'])
+        user = session.query(UserModel).filter_by(id=data['id'])
         user.update(data)
-        db_session.commit()
-        user = db_session.query(UserModel).filter_by(id=data['id']).one()
+        session.commit()
+        user = session.query(UserModel).filter_by(id=data['id']).one()
 
         return UpdateUser(user=user)
